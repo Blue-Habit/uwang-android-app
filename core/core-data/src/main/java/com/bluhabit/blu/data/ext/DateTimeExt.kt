@@ -32,7 +32,6 @@ fun String.toTimestamp(): Long {
         val offsetDateTime = OffsetDateTime.parse(this)
         offsetDateTime.toEpochSecond() * 1000 // Convert to milliseconds
     } catch (e: Exception) {
-        e.printStackTrace()
         0 // Return 0 if parsing fails
     }
 }
