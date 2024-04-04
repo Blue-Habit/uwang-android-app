@@ -15,19 +15,21 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.bluhabit.blu.android.presentation.authentication.personalization.PersonalizeScreen
-import com.bluhabit.blu.android.presentation.authentication.personalization.PersonalizationViewModel
 import com.bluhabit.blu.android.presentation.authentication.forgotPassword.ForgotPasswordScreen
 import com.bluhabit.blu.android.presentation.authentication.forgotPassword.ForgotPasswordViewModel
 import com.bluhabit.blu.android.presentation.authentication.onboard.OnboardScreen
 import com.bluhabit.blu.android.presentation.authentication.onboard.OnboardViewModel
+import com.bluhabit.blu.android.presentation.authentication.personalization.PersonalizationViewModel
+import com.bluhabit.blu.android.presentation.authentication.personalization.PersonalizeScreen
 import com.bluhabit.blu.android.presentation.authentication.signin.SignInScreen
 import com.bluhabit.blu.android.presentation.authentication.signin.SignInViewModel
 import com.bluhabit.blu.android.presentation.authentication.signup.SignUpScreen
 import com.bluhabit.blu.android.presentation.authentication.signup.SignUpViewModel
 import com.bluhabit.blu.android.presentation.authentication.termAndCondition.TermAndConditionScreen
-import com.bluhabit.blu.android.presentation.dashboard.DashboardScreen
-import com.bluhabit.blu.android.presentation.dashboard.DashboardViewModel
+import com.bluhabit.blu.android.presentation.editprofile.EditProfileScreen
+import com.bluhabit.blu.android.presentation.editprofile.EditProfileViewModel
+import com.bluhabit.blu.android.presentation.home.HomeScreen
+import com.bluhabit.blu.android.presentation.home.HomeViewModel
 import com.bluhabit.core.ui.theme.UwangTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -105,8 +107,17 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     composable(Routes.Home) {
-                        val viewModel = hiltViewModel<DashboardViewModel>()
-                        DashboardScreen(
+                        val viewModel = hiltViewModel<HomeViewModel>()
+                        HomeScreen(
+                            navHostController = navHostController,
+                            stateFlow = viewModel.state,
+                            effectFlow = viewModel.onEffect,
+                            onAction = viewModel::onAction
+                        )
+                    }
+                    composable(Routes.EditProfile) {
+                        val viewModel = hiltViewModel<EditProfileViewModel>()
+                        EditProfileScreen(
                             navHostController = navHostController,
                             stateFlow = viewModel.state,
                             effectFlow = viewModel.onEffect,

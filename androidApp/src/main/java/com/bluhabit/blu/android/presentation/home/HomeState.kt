@@ -11,6 +11,7 @@ import com.bluehabit.core.ui.R
 
 data class HomeState(
     val currentScreen: Int = 0,
+    val showLoading: Boolean = false,
     val bottomNavigationItems: List<BottomNavigationItem> = listOf(
         BottomNavigationItem(
             icon = R.drawable.ic_home,

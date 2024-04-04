@@ -8,7 +8,6 @@
 package com.bluhabit.blu.android.presentation.authentication.personalization
 
 import android.graphics.Bitmap
-import com.bluhabit.blu.android.presentation.authentication.personalization.screen.SelectedTopic
 import com.bluhabit.core.ui.components.textfield.TextFieldState
 import com.bluhabit.core.ui.ext.Empty
 import javax.annotation.concurrent.Immutable
@@ -17,7 +16,7 @@ import javax.annotation.concurrent.Immutable
 data class PersonalizationState(
 
     //global
-    val showLoading:Boolean=false,
+    val showLoading: Boolean = false,
     val currentScreen: Int = 0,
     // Create Username Screen
     val usernameState: TextFieldState = TextFieldState.None,
@@ -27,7 +26,7 @@ data class PersonalizationState(
     val showDialogChoice: Boolean = false,
     val uploadProfileSuccess: Boolean = false,
     // Choose Topic Screen
-    val selectedTopicList: List<SelectedTopic> = listOf(),
+    val selectedTopicList: List<String> = listOf(),
     // Choose Level Screen [INTERMEDIATE,PRO,ADVANCE]
     val selectedLevel: String = ""
 )

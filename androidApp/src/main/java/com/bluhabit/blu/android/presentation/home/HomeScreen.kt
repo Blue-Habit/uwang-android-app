@@ -46,11 +46,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
+import com.bluhabit.blu.android.Routes
 import com.bluhabit.blu.android.presentation.home.component.MainScreen
 import com.bluhabit.blu.android.presentation.home.component.NotificationScreen
 import com.bluhabit.blu.android.presentation.home.component.PostScreen
 import com.bluhabit.blu.android.presentation.home.component.ProfileScreen
 import com.bluhabit.blu.android.presentation.home.component.SearchScreen
+import com.bluhabit.core.ui.components.dialog.DialogLoading
 import com.bluhabit.core.ui.theme.UwangColors
 import com.bluhabit.core.ui.theme.UwangDimens
 import com.bluhabit.core.ui.theme.UwangTheme
@@ -72,6 +74,8 @@ fun HomeScreen(
     val effect by effectFlow.collectAsState(initial = HomeEffect.None)
     var exitApp by remember { mutableStateOf(false) }
 
+
+    DialogLoading(show = state.showLoading)
 
     Scaffold(
         modifier = Modifier
@@ -115,6 +119,11 @@ fun HomeScreen(
                 paddingValues = paddingValues,
                 state = state,
                 onAction = onAction,
+                onEditProfile = {
+                    navHostController.navigate(Routes.EditProfile) {
+                        launchSingleTop = true
+                    }
+                }
             )
         }
     }

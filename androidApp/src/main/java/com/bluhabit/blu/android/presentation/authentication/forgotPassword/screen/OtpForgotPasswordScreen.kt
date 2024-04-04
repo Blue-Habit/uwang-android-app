@@ -36,9 +36,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bluehabit.core.ui.R
-import com.bluhabit.blu.android.common.toDateTime
 import com.bluhabit.blu.android.presentation.authentication.forgotPassword.ForgotPasswordAction
 import com.bluhabit.blu.android.presentation.authentication.forgotPassword.ForgotPasswordState
+import com.bluhabit.blu.data.ext.toDateTime
 import com.bluhabit.core.ui.components.alert.AlertError
 import com.bluhabit.core.ui.components.alert.AlertSuccess
 import com.bluhabit.core.ui.components.button.ButtonPrimary

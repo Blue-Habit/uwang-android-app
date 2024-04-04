@@ -48,11 +48,6 @@ import com.bluhabit.core.ui.theme.UwangDimens
 import com.bluhabit.core.ui.theme.UwangTheme
 import com.bluhabit.core.ui.theme.UwangTypography
 
-data class SelectedTopic(
-    val topic: String,
-    val selectedTime: Long,
-)
-
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ChooseTopicScreen(
@@ -111,10 +106,9 @@ fun ChooseTopicScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 state.selectedTopicList
-                    .sortedBy { it.selectedTime }
                     .forEach {
                         RoundedChip(
-                            text = it.topic,
+                            text = it,
                             selected = true,
                             height = dimens.dp_36,
                             verticalPadding = dimens.dp_8,
@@ -153,7 +147,7 @@ fun ChooseTopicScreen(
                 topicList
                     .filter {
                         state.selectedTopicList.find { selectedTopic ->
-                            selectedTopic.topic == it
+                            selectedTopic == it
                         } == null
                     }
                     .forEach {
@@ -164,12 +158,7 @@ fun ChooseTopicScreen(
                             verticalPadding = dimens.dp_8,
                             onClick = {
                                 onAction(
-                                    PersonalizationAction.OnAddSelectedList(
-                                        SelectedTopic(
-                                            topic = it,
-                                            selectedTime = System.currentTimeMillis(),
-                                        )
-                                    )
+                                    PersonalizationAction.OnAddSelectedList(it)
                                 )
                             }
                         )
@@ -195,7 +184,7 @@ fun ChooseTopicScreen(
                         .width(dimens.from(102.dp))
                         .height(dimens.from(36.dp)),
                     text = stringResource(id = R.string.label_button_pass),
-                    onClick = {onAction(PersonalizationAction.NextSkip)}
+                    onClick = { onAction(PersonalizationAction.NextSkip) }
                 )
                 ButtonPrimary(
                     modifier = modifier

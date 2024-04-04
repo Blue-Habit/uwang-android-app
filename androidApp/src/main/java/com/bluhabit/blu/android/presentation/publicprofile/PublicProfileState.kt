@@ -5,7 +5,7 @@
  * Proprietary and confidential
  */
 
-package com.bluhabit.blu.android.presentation.profile
+package com.bluhabit.blu.android.presentation.publicprofile
 
 data class PublicProfileState(
     val username: String = "",

@@ -5,7 +5,7 @@
  * Proprietary and confidential
  */
 
-package com.bluhabit.blu.android.presentation.profile
+package com.bluhabit.blu.android.presentation.publicprofile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
