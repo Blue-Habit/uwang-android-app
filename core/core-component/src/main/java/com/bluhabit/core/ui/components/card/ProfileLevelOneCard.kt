@@ -59,8 +59,8 @@ fun ProfileLevelOneCard(
     val dimens = UwangDimens.from(ctx)
 
     BaseProfileCard(
-        modifier = modifier
-            .clickable(onClick = onCardClick),
+        modifier = modifier,
+        onCardClick = onCardClick
     ) {
         Column(
             modifier = Modifier

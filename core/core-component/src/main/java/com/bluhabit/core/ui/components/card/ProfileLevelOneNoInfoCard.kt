@@ -35,12 +35,14 @@ import com.bluhabit.core.ui.theme.UwangTypography
 @Composable
 fun ProfileLevelOneNoInfoCard(
     modifier: Modifier = Modifier,
+    onCardClick: () -> Unit = {}
 ) {
     val ctx = LocalContext.current
     val dimens = UwangDimens.from(ctx)
     BaseProfileCard(
         modifier = modifier,
-        height = dimens.from(52.dp)
+        height = dimens.from(52.dp),
+        onCardClick = onCardClick
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(dimens.dp_8),

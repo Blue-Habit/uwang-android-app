@@ -31,4 +31,5 @@ class ResourceProvider(
         }
         return false
     }
+    fun getStringArray(id: Int): Array<String> = appContext.resources.getStringArray(id)
 }
