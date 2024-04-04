@@ -7,16 +7,16 @@
 
 package com.bluhabit.blu.android.presentation.home
 
-import com.google.gson.annotations.SerializedName
-
 sealed interface HomeAction {
     data class OnScreenChange(
         val screen: Int,
-    ): HomeAction
+    ) : HomeAction
+
     data class OnBottomNavBadgeVisibilityChange(
         val index: Int,
         val visibility: Boolean,
-    ): HomeAction
+    ) : HomeAction
+
     // Profile Screen
-    object GetProfile: HomeAction
+    object GetProfile : HomeAction
 }

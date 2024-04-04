@@ -10,12 +10,10 @@ package com.bluhabit.blu.android.presentation.home
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.bluhabit.blu.android.common.BaseViewModel
-import com.bluhabit.blu.android.data.profile.domain.EditProfileUseCase
 import com.bluhabit.blu.android.data.profile.domain.GetProfileUseCase
 import com.bluhabit.blu.data.common.Response
 import com.bluhabit.blu.data.common.executeAsFlow
 import com.bluhabit.blu.data.ext.toDate
-import com.bluhabit.blu.data.ext.toListOfType
 import com.bluhabit.core.ui.ext.getMaxPointByLevel
 import com.bluhabit.core.ui.ext.getMaxStepByLevel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -73,7 +71,8 @@ class HomeViewModel @Inject constructor(
                                 sizePoint = (userProfile?.find { it.key == "level" }?.value as Int?).getMaxPointByLevel() ?: 0,
                                 topicList = (userProfile?.find { it.key == "topics" }?.value as String?)?.split(",") ?: listOf(),
                                 completedStep = 0, // step personalisasi yang sudah di isi
-                                sizeStep = (userProfile?.find { it.key == "level" }?.value as Int?).getMaxStepByLevel() ?: 0, // total step yang terdapat di personalisasi
+                                sizeStep = (userProfile?.find { it.key == "level" }?.value as Int?).getMaxStepByLevel()
+                                    ?: 0, // total step yang terdapat di personalisasi
                                 sizePost = 0, // total postingan yang sudah dibuat
                                 sizeFollowers = 0, // total followers yang dimiliki
                                 sizeFollowing = 0, // total jumlah mengikuti
