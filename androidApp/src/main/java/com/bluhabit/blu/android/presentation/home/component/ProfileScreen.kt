@@ -7,7 +7,6 @@
 
 package com.bluhabit.blu.android.presentation.home.component
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
