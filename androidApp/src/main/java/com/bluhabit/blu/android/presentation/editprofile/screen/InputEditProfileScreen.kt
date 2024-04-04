@@ -43,7 +43,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.bluehabit.core.ui.R
-import com.bluhabit.blu.android.presentation.authentication.personalization.screen.SelectedTopic
 import com.bluhabit.blu.android.presentation.editprofile.EditProfileAction
 import com.bluhabit.blu.android.presentation.editprofile.EditProfileState
 import com.bluhabit.core.ui.components.alert.AlertError
@@ -55,6 +54,7 @@ import com.bluhabit.core.ui.theme.UwangColors
 import com.bluhabit.core.ui.theme.UwangDimens
 import com.bluhabit.core.ui.theme.UwangTheme
 import com.bluhabit.core.ui.theme.UwangTypography
+import java.time.OffsetDateTime
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -70,8 +70,7 @@ fun InputEditProfileScreen(
 
     val imageProfilePainter = rememberAsyncImagePainter(
         model = when {
-            state.newImageProfileUri != null -> state.newImageProfileUri
-            state.currentImageProfileUrl != null -> state.currentImageProfileUrl
+            state.imageProfileUrl != null -> state.imageProfileUrl
             else -> "https://r2.easyimg.io/shbq3yqpw/frame_37002.png"
         }
     )
@@ -235,10 +234,9 @@ fun InputEditProfileScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     state.selectedTopic
-                        .sortedBy { it.selectedTime }
                         .forEach {
                             RoundedChip(
-                                text = it.topic,
+                                text = it,
                                 selected = true,
                                 height = dimens.dp_36,
                                 verticalPadding = dimens.dp_8,
@@ -298,14 +296,15 @@ fun InputEditProfileScreen(
 @Preview
 @Composable
 fun InputEditProfileScreenPreview() {
+    val currentTime = OffsetDateTime.now().toString()
     UwangTheme {
         val topicList = stringArrayResource(id = R.array.topic_list)
         val dummyState = EditProfileState(
-            currentImageProfileUrl = "https://static.remove.bg/sample-gallery/graphics/bird-thumbnail.jpg",
+            imageProfileUrl = "https://static.remove.bg/sample-gallery/graphics/bird-thumbnail.jpg",
             selectedTopic = listOf(
-                SelectedTopic(topicList[0], 0),
-                SelectedTopic(topicList[1], 1),
-                SelectedTopic(topicList[2], 2),
+                topicList[0],
+                topicList[1],
+                topicList[2],
             ),
         )
         InputEditProfileScreen(

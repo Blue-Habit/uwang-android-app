@@ -16,7 +16,6 @@ import com.bluhabit.blu.android.data.authentication.domain.PersonalizeUpdateProf
 import com.bluhabit.blu.android.data.authentication.domain.PersonalizeUpdateProfileTopicsUseCase
 import com.bluhabit.blu.android.data.authentication.domain.PersonalizeUpdateProfileUsernameUseCase
 import com.bluhabit.blu.android.data.authentication.domain.PersonalizeUploadProfilePictureUseCase
-import com.bluhabit.blu.android.presentation.authentication.personalization.screen.SelectedTopic
 import com.bluhabit.blu.data.common.ResourceProvider
 import com.bluhabit.blu.data.common.Response
 import com.bluhabit.blu.data.common.executeAsFlow
@@ -67,7 +66,7 @@ class PersonalizationViewModel @Inject constructor(
         }
     }
 
-    private fun onRemoveSelectedTopic(topic: SelectedTopic) {
+    private fun onRemoveSelectedTopic(topic: String) {
         updateState {
             val newList = selectedTopicList.toMutableList()
             newList.remove(topic)
@@ -84,7 +83,7 @@ class PersonalizationViewModel @Inject constructor(
     }
 
     private fun onSelectedTopicsSelected(
-        topic: SelectedTopic
+        topic: String
     ) {
         updateState {
             val newList = selectedTopicList.toMutableList()
@@ -174,7 +173,7 @@ class PersonalizationViewModel @Inject constructor(
 
 
     private fun submitTopic() = viewModelScope.launch {
-        executeAsFlow { personalizeUpdateProfileTopicsUseCase(topics = _state.value.selectedTopicList.map { it.topic }) }
+        executeAsFlow { personalizeUpdateProfileTopicsUseCase(topics = _state.value.selectedTopicList.map { it }) }
             .onStart { updateState { copy(showLoading = true) } }
             .onEach {
                 updateState { copy(showLoading = false) }

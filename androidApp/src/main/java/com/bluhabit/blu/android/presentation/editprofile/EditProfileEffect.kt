@@ -9,4 +9,5 @@ package com.bluhabit.blu.android.presentation.editprofile
 
 sealed interface EditProfileEffect {
     object None : EditProfileEffect
+    object NavigateToMain: EditProfileEffect
 }

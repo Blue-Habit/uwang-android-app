@@ -33,12 +33,14 @@ android {
     buildTypes {
         release {
             setupBaseUrl(getCurrentFlavor())
+            setupStorageBaseUrl(getCurrentFlavor())
             setupDatabase()
             setupSharedPrefName()
         }
 
         debug {
             setupBaseUrl(getCurrentFlavor())
+            setupStorageBaseUrl(getCurrentFlavor())
             setupDatabase()
             setupSharedPrefName()
         }
@@ -118,6 +120,16 @@ fun LibraryBuildType.setupBaseUrl(flavor: String) {
         else -> "BASE_URL_DEV"
     }
     buildConfigField("String", "BASE_URL", "\"${findProperty(url).toString()}\"")
+}
+
+fun LibraryBuildType.setupStorageBaseUrl(flavor: String) {
+    val url = when (flavor) {
+        "dev" -> "STORAGE_BASE_URL_DEV"
+        "staging" -> "STORAGE_BASE_URL_STAGING"
+        "production" -> "STORAGE_BASE_URL"
+        else -> "STORAGE_BASE_URL_DEV"
+    }
+    buildConfigField("String", "STORAGE_BASE_URL", "\"${findProperty(url).toString()}\"")
 }
 
 fun LibraryBuildType.setupDatabase() {

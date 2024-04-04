@@ -27,6 +27,7 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,7 +39,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bluehabit.core.ui.R
-import com.bluhabit.blu.android.presentation.authentication.personalization.screen.SelectedTopic
 import com.bluhabit.blu.android.presentation.editprofile.EditProfileAction
 import com.bluhabit.blu.android.presentation.editprofile.EditProfileState
 import com.bluhabit.core.ui.components.chip.RoundedChip
@@ -113,10 +113,9 @@ fun EditTopicScreen(
                     .padding(horizontal = dimens.dp_16)
             ) {
                 state.tempSelectedTopic
-                    .sortedBy { it.selectedTime }
                     .forEach {
                         RoundedChip(
-                            text = it.topic,
+                            text = it,
                             selected = true,
                             height = dimens.dp_36,
                             verticalPadding = dimens.dp_8,
@@ -169,7 +168,7 @@ fun EditTopicScreen(
             topicList
                 .filter {
                     state.tempSelectedTopic.find { selectedTopic ->
-                        selectedTopic.topic == it
+                        selectedTopic == it
                     } == null
                 }
                 .forEach {
@@ -179,14 +178,7 @@ fun EditTopicScreen(
                         height = dimens.dp_36,
                         verticalPadding = dimens.dp_8,
                         onClick = {
-                            onAction(
-                                EditProfileAction.OnAddTempSelectedTopic(
-                                    SelectedTopic(
-                                        topic = it,
-                                        selectedTime = System.currentTimeMillis(),
-                                    )
-                                )
-                            )
+                            onAction(EditProfileAction.OnAddTempSelectedTopic(it))
                         }
                     )
                 }

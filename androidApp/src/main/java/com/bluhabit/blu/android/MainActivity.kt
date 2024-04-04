@@ -26,6 +26,8 @@ import com.bluhabit.blu.android.presentation.authentication.signin.SignInViewMod
 import com.bluhabit.blu.android.presentation.authentication.signup.SignUpScreen
 import com.bluhabit.blu.android.presentation.authentication.signup.SignUpViewModel
 import com.bluhabit.blu.android.presentation.authentication.termAndCondition.TermAndConditionScreen
+import com.bluhabit.blu.android.presentation.editprofile.EditProfileScreen
+import com.bluhabit.blu.android.presentation.editprofile.EditProfileViewModel
 import com.bluhabit.blu.android.presentation.home.HomeScreen
 import com.bluhabit.blu.android.presentation.home.HomeViewModel
 import com.bluhabit.core.ui.theme.UwangTheme
@@ -107,6 +109,15 @@ class MainActivity : ComponentActivity() {
                     composable(Routes.Home) {
                         val viewModel = hiltViewModel<HomeViewModel>()
                         HomeScreen(
+                            navHostController = navHostController,
+                            stateFlow = viewModel.state,
+                            effectFlow = viewModel.onEffect,
+                            onAction = viewModel::onAction
+                        )
+                    }
+                    composable(Routes.EditProfile) {
+                        val viewModel = hiltViewModel<EditProfileViewModel>()
+                        EditProfileScreen(
                             navHostController = navHostController,
                             stateFlow = viewModel.state,
                             effectFlow = viewModel.onEffect,

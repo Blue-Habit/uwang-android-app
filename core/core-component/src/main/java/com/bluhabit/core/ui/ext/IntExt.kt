@@ -11,3 +11,8 @@ fun Int?.getMaxPointByLevel() = when(this) {
     1 -> 500
     else -> null
 }
+
+fun Int?.getMaxStepByLevel() = when(this) {
+    1 -> 4
+    else -> null
+}

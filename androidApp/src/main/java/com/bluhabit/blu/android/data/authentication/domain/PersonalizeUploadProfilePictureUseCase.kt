@@ -17,7 +17,7 @@ class PersonalizeUploadProfilePictureUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         file: Bitmap
-    ): Response<Any> {
+    ): Response<String> {
         return userRepository.updateProfilePicture(bitmap = file)
 
     }

@@ -15,4 +15,5 @@ object Routes {
     const val ForgotPassword = "forgot_password"
     const val Personalize = "personalize"
     const val TermAndCondition = "term_and_condition"
+    const val EditProfile = "edit_profile"
 }

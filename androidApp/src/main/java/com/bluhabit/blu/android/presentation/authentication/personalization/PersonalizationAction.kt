@@ -8,7 +8,6 @@
 package com.bluhabit.blu.android.presentation.authentication.personalization
 
 import android.graphics.Bitmap
-import com.bluhabit.blu.android.presentation.authentication.personalization.screen.SelectedTopic
 
 sealed interface PersonalizationAction {
 
@@ -40,11 +39,11 @@ sealed interface PersonalizationAction {
     // Choose Topic Screen
     object OnClearSelectedList : PersonalizationAction
     data class OnAddSelectedList(
-        val topic: SelectedTopic,
+        val topic: String,
     ) : PersonalizationAction
 
     data class OnRemoveSelectedList(
-        val topic: SelectedTopic,
+        val topic: String,
     ) : PersonalizationAction
 
     object ChooseTopicNextButton : PersonalizationAction

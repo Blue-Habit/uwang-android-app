@@ -19,6 +19,7 @@ import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -29,6 +30,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.bluhabit.blu.android.Routes
 import com.bluhabit.blu.android.presentation.editprofile.screen.EditTopicScreen
 import com.bluhabit.blu.android.presentation.editprofile.screen.InputEditProfileScreen
 import com.bluhabit.core.ui.components.dialog.DialogLoading
@@ -48,6 +50,9 @@ fun EditProfileScreen(
     effectFlow: Flow<EditProfileEffect> = flowOf(),
     onAction: (EditProfileAction) -> Unit = {},
 ) {
+    LaunchedEffect(Unit) {
+        onAction(EditProfileAction.OnGetProfile)
+    }
     val ctx = LocalContext.current
     val dimens = UwangDimens.from(ctx)
     val state by stateFlow.collectAsStateWithLifecycle(
@@ -71,7 +76,6 @@ fun EditProfileScreen(
                 val bitmap = uri.getBitmap(ctx.contentResolver)
                 if (bitmap != null) {
                     onAction(EditProfileAction.OnImageSelected(bitmap))
-                    onAction(EditProfileAction.OnUploadProfileImageSuccessVisibilityChange(visible = true))
                 } else {
                     onAction(EditProfileAction.OnUploadProfileImageErrorVisibilityChange(visible = true))
                 }
@@ -87,11 +91,24 @@ fun EditProfileScreen(
         }
         if (bitmap != null) {
             onAction(EditProfileAction.OnImageSelected(bitmap))
-            onAction(EditProfileAction.OnUploadProfileImageErrorVisibilityChange(visible = true))
         } else {
             onAction(EditProfileAction.OnUploadProfileImageErrorVisibilityChange(visible = true))
         }
     }
+    LaunchedEffect(key1 = effect, block = {
+        when (effect) {
+            EditProfileEffect.NavigateToMain -> {
+                navHostController.navigate(Routes.Home) {
+                    launchSingleTop = true
+                    popUpTo(Routes.EditProfile) {
+                        inclusive = true
+                    }
+                }
+            }
+
+            EditProfileEffect.None -> {}
+        }
+    })
 
     fun goBack() {
         when {
@@ -148,7 +165,7 @@ fun EditProfileScreen(
                 onAction = onAction,
                 onBackPressed = {
                     goBack()
-                }
+                },
             )
         }
     }

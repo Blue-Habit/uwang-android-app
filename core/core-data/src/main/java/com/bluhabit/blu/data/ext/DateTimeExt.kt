@@ -27,13 +27,22 @@ fun String.toDate(pattern: String): String? {
     }
 }
 
+fun String.toTimestamp(): Long {
+    return try {
+        val offsetDateTime = OffsetDateTime.parse(this)
+        offsetDateTime.toEpochSecond() * 1000 // Convert to milliseconds
+    } catch (e: Exception) {
+        e.printStackTrace()
+        0 // Return 0 if parsing fails
+    }
+}
+
 fun LocalDate.localDateToOffset(): String {
     val localDateTime = LocalDateTime.of(this, LocalTime.now())
     val offsetDateTime = OffsetDateTime.of(localDateTime, ZoneOffset.ofHours(-3))
     return offsetDateTime.toString()
 }
 
-// for timestamp epoch
 fun Long.toDateTime(pattern: String): String {
     val date = Date(this)
     val sdf = SimpleDateFormat(pattern, Locale.getDefault())

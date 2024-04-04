@@ -8,49 +8,60 @@
 package com.bluhabit.blu.android.presentation.editprofile
 
 import android.graphics.Bitmap
-import com.bluhabit.blu.android.presentation.authentication.personalization.screen.SelectedTopic
 
 sealed interface EditProfileAction {
     // Used on more than 1 screen
     data class OnScreenChange(
         val screen: Int
-    ): EditProfileAction
+    ) : EditProfileAction
 
     // Input Edit Profile Screen
+    object OnGetProfile: EditProfileAction
+
     data class OnImageSelected(
         val bitmap: Bitmap,
     ) : EditProfileAction
+
     data class OnUploadProfileImageErrorVisibilityChange(
         val visible: Boolean
     ) : EditProfileAction
+
     data class OnUploadProfileImageSuccessVisibilityChange(
         val visible: Boolean
     ) : EditProfileAction
+
     data class OnUsernameChange(
         val value: String
     ) : EditProfileAction
+
     data class OnFullNameChange(
         val value: String
     ) : EditProfileAction
+
     data class OnLinkChange(
         val value: String
     ) : EditProfileAction
+
     data class OnBioChange(
         val value: String
     ) : EditProfileAction
+
     data class OnRemoveSelectedTopic(
-        val selectedTopic: SelectedTopic
+        val selectedTopic: String
     ) : EditProfileAction
+
     object OnEditProfileSaved : EditProfileAction
 
     // Edit Topic Screen
     object OnClearTempSelectedTopic : EditProfileAction
     object OnEditNewTopic : EditProfileAction
     data class OnAddTempSelectedTopic(
-        val selectedTopic: SelectedTopic
+        val selectedTopic: String
     ) : EditProfileAction
+
     data class OnRemoveTempSelectedTopic(
-        val selectedTopic: SelectedTopic
+        val selectedTopic: String
     ) : EditProfileAction
+
     object OnEditTopicSaved : EditProfileAction
 }

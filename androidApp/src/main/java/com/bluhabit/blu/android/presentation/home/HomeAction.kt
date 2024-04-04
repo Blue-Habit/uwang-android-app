@@ -7,6 +7,8 @@
 
 package com.bluhabit.blu.android.presentation.home
 
+import com.google.gson.annotations.SerializedName
+
 sealed interface HomeAction {
     data class OnScreenChange(
         val screen: Int,

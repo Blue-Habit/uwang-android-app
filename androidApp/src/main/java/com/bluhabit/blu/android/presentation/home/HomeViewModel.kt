@@ -10,12 +10,14 @@ package com.bluhabit.blu.android.presentation.home
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.bluhabit.blu.android.common.BaseViewModel
+import com.bluhabit.blu.android.data.profile.domain.EditProfileUseCase
 import com.bluhabit.blu.android.data.profile.domain.GetProfileUseCase
 import com.bluhabit.blu.data.common.Response
 import com.bluhabit.blu.data.common.executeAsFlow
 import com.bluhabit.blu.data.ext.toDate
 import com.bluhabit.blu.data.ext.toListOfType
 import com.bluhabit.core.ui.ext.getMaxPointByLevel
+import com.bluhabit.core.ui.ext.getMaxStepByLevel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.collect
@@ -25,7 +27,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getProfileUseCase: GetProfileUseCase
+    private val getProfileUseCase: GetProfileUseCase,
 ) : BaseViewModel<HomeState, HomeAction, HomeEffect>(HomeState()) {
 
     override fun onAction(action: HomeAction) {
@@ -59,20 +61,19 @@ class HomeViewModel @Inject constructor(
                 }
 
                 is Response.Result -> {
-                    Log.e("success", response.data.fullName)
                     updateState {
                         with(response.data) {
                             copy(
                                 username = username,
                                 fullName = fullName,
-                                imageProfileUrl = (userProfile.find { it.key == "profile-picture" }?.value ?: "") as String,
-                                bioProfile = (userProfile.find { it.key == "bio" }?.value ?: "") as String,
-                                websiteProfile = (userProfile.find { it.key == "link" }?.value ?: "") as String,
+                                imageProfileUrl = userProfile?.find { it.key == "profile-picture" }?.value as String?,
+                                bioProfile = userProfile?.find { it.key == "bio" }?.value as String?,
+                                websiteProfile = userProfile?.find { it.key == "link" }?.value as String?,
                                 currentPoint = 0, // point saat ini
-                                sizePoint = (userProfile.find { it.key == "level" }?.value as Int?).getMaxPointByLevel() ?: 0,
-                                topicList = userProfile.find { it.key == "topics" }?.value.toListOfType(String::class.java) ?: listOf(),
+                                sizePoint = (userProfile?.find { it.key == "level" }?.value as Int?).getMaxPointByLevel() ?: 0,
+                                topicList = (userProfile?.find { it.key == "topics" }?.value as String?)?.split(",") ?: listOf(),
                                 completedStep = 0, // step personalisasi yang sudah di isi
-                                sizeStep = 0, // total step yang terdapat di personalisasi (bisa di static = 4)
+                                sizeStep = (userProfile?.find { it.key == "level" }?.value as Int?).getMaxStepByLevel() ?: 0, // total step yang terdapat di personalisasi
                                 sizePost = 0, // total postingan yang sudah dibuat
                                 sizeFollowers = 0, // total followers yang dimiliki
                                 sizeFollowing = 0, // total jumlah mengikuti

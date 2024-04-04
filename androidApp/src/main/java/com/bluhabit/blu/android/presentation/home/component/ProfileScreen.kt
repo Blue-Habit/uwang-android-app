@@ -81,6 +81,7 @@ fun ProfileScreen(
     paddingValues: PaddingValues = PaddingValues(),
     state: HomeState = HomeState(),
     onAction: (HomeAction) -> Unit = {},
+    onEditProfile: () -> Unit = {}
 ) {
     val ctx = LocalContext.current
     val dimens = UwangDimens.from(ctx)
@@ -115,7 +116,7 @@ fun ProfileScreen(
         ) {
             TopSection(state = state)
             Spacer(modifier = Modifier.padding(top = dimens.dp_12))
-            MiddleSection(state = state, pagerState = middlePagerState)
+            MiddleSection(state = state, pagerState = middlePagerState, onEditProfile)
             Spacer(modifier = Modifier.padding(top = dimens.dp_16))
             BottomSection(
                 screenHeight = screenHeight,
@@ -294,7 +295,8 @@ fun TopSection(
 @Composable
 fun MiddleSection(
     state: HomeState,
-    pagerState: PagerState
+    pagerState: PagerState,
+    onEditProfile: () -> Unit = {},
 ) {
     val ctx = LocalContext.current
     val dimens = UwangDimens.from(ctx)
@@ -364,6 +366,7 @@ fun MiddleSection(
                 text = stringResource(id = R.string.label_button_edit_profile),
                 borderColor = UwangColors.Text.Border,
                 textColor = UwangColors.Text.Main,
+                onClick = onEditProfile
             )
         }
     }
@@ -491,7 +494,7 @@ fun Page(
 @Preview
 @Composable
 fun ProfileScreenPreview() {
-    val topicList = stringArrayResource(id = R.array.topic_list).copyOfRange(0,3).toList()
+    val topicList = stringArrayResource(id = R.array.topic_list).copyOfRange(0, 3).toList()
     val dummyState = HomeState(
         username = "johndoe",
         fullName = "John Doe",

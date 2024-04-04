@@ -7,6 +7,7 @@
 
 package com.bluhabit.blu.data.common
 
+import android.util.Log
 import com.bluhabit.blu.data.model.BaseResponse
 import com.bluhabit.blu.data.model.BaseResponseError
 import io.ktor.client.call.NoTransformationFoundException
@@ -26,6 +27,7 @@ suspend inline fun <reified T> safeApiCall(call: () -> HttpResponse): Response<T
                 if (data.statusCode in 200..209) {
                     Response.Result(data.data)
                 } else {
+                    Log.e("safeApiCall", "here")
                     Response.Error(data.message, data.statusCode)
                 }
             }

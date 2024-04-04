@@ -11,38 +11,38 @@ import com.google.gson.annotations.SerializedName
 
 data class UserCredentialResponse(
 
-	@field:SerializedName("full_name")
-	val fullName: String,
-
-	@field:SerializedName("deleted")
-	val deleted: String,
-
-	@field:SerializedName("updated_at")
-	val updatedAt: String,
-
-	@field:SerializedName("date_of_birth")
-	val dateOfBirth: String,
-
-	@field:SerializedName("created_at")
-	val createdAt: String,
-
 	@field:SerializedName("id")
 	val id: String,
-
-	@field:SerializedName("user_profile")
-	val userProfile: List<UserProfile>,
 
 	@field:SerializedName("email")
 	val email: String,
 
-	@field:SerializedName("auth_provider")
-	val authProvider: String,
+	@field:SerializedName("full_name")
+	val fullName: String,
 
 	@field:SerializedName("username")
 	val username: String,
 
+	@field:SerializedName("dateOfBirth")
+	val dateOfBirth: String,
+
+	@field:SerializedName("authProvider")
+	val authProvider: String,
+
 	@field:SerializedName("status")
-	val status: String
+	val status: String,
+
+	@field:SerializedName("createdAt")
+	val createdAt: String,
+
+	@field:SerializedName("updatedAt")
+	val updatedAt: String,
+
+	@field:SerializedName("deleted")
+	val deleted: Boolean,
+
+	@field:SerializedName("user_profile")
+	val userProfile: List<UserProfile>?,
 )
 
 data class UserProfile(

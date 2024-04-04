@@ -46,6 +46,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
+import com.bluhabit.blu.android.Routes
 import com.bluhabit.blu.android.presentation.home.component.MainScreen
 import com.bluhabit.blu.android.presentation.home.component.NotificationScreen
 import com.bluhabit.blu.android.presentation.home.component.PostScreen
@@ -118,6 +119,11 @@ fun HomeScreen(
                 paddingValues = paddingValues,
                 state = state,
                 onAction = onAction,
+                onEditProfile = {
+                    navHostController.navigate(Routes.EditProfile) {
+                        launchSingleTop = true
+                    }
+                }
             )
         }
     }
