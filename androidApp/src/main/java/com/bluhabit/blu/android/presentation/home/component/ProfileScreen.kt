@@ -81,7 +81,8 @@ fun ProfileScreen(
     paddingValues: PaddingValues = PaddingValues(),
     state: HomeState = HomeState(),
     onAction: (HomeAction) -> Unit = {},
-    onEditProfile: () -> Unit = {}
+    onEditProfile: () -> Unit = {},
+    onDetailTopicBottomSheetShow: () -> Unit = {}
 ) {
     val ctx = LocalContext.current
     val dimens = UwangDimens.from(ctx)
@@ -116,7 +117,12 @@ fun ProfileScreen(
         ) {
             TopSection(state = state)
             Spacer(modifier = Modifier.padding(top = dimens.dp_12))
-            MiddleSection(state = state, pagerState = middlePagerState, onEditProfile)
+            MiddleSection(
+                state = state,
+                pagerState = middlePagerState,
+                onEditProfile = onEditProfile,
+                onDetailTopicBottomSheetShow = onDetailTopicBottomSheetShow
+            )
             Spacer(modifier = Modifier.padding(top = dimens.dp_16))
             BottomSection(
                 screenHeight = screenHeight,
@@ -297,6 +303,7 @@ fun MiddleSection(
     state: HomeState,
     pagerState: PagerState,
     onEditProfile: () -> Unit = {},
+    onDetailTopicBottomSheetShow: () -> Unit = {}
 ) {
     val ctx = LocalContext.current
     val dimens = UwangDimens.from(ctx)
@@ -327,9 +334,10 @@ fun MiddleSection(
                                 onTopicChipClicked = {
                                     // On Topic Clicked
                                 },
-                            ) {
-                                // On Card Click
-                            }
+                                onCardClick = {
+                                    onDetailTopicBottomSheetShow()
+                                }
+                            )
                         }
                     }
 
@@ -346,7 +354,9 @@ fun MiddleSection(
                     ProfileLevelOneNoInfoCard(
                         modifier = Modifier
                             .padding(horizontal = dimens.dp_16)
-                    )
+                    ) {
+                        // On Card Click
+                    }
             }
             if (completedStep < 4) {
                 Spacer(modifier = Modifier.padding(bottom = dimens.from(8.dp)))

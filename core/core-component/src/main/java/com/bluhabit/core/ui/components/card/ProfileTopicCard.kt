@@ -8,7 +8,6 @@
 package com.bluhabit.core.ui.components.card
 
 import android.util.Log
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -48,8 +47,8 @@ fun ProfileTopicCard(
     val ctx = LocalContext.current
     val dimens = UwangDimens.from(ctx)
     BaseProfileCard(
-        modifier = modifier
-            .clickable(onClick = onCardClick)
+        modifier = modifier,
+        onCardClick = onCardClick
     ) {
         Column(
             modifier = Modifier
@@ -104,7 +103,7 @@ fun ProfileTopicCard(
 @Composable
 fun ProfileTopicCardPreview() {
     UwangTheme {
-        val topicList = stringArrayResource(id = R.array.topic_list).copyOfRange(0,3).toList()
+        val topicList = stringArrayResource(id = R.array.topic_list).copyOfRange(0, 3).toList()
         ProfileTopicCard(
             modifier = Modifier
                 .padding(top = 56.dp, start = 16.dp, end = 16.dp)

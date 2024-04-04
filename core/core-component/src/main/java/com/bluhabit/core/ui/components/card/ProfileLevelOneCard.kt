@@ -10,7 +10,6 @@ package com.bluhabit.core.ui.components.card
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -59,8 +58,8 @@ fun ProfileLevelOneCard(
     val dimens = UwangDimens.from(ctx)
 
     BaseProfileCard(
-        modifier = modifier
-            .clickable(onClick = onCardClick),
+        modifier = modifier,
+        onCardClick = onCardClick
     ) {
         Column(
             modifier = Modifier
@@ -126,7 +125,7 @@ fun ProfileLevelOneCard(
                                     )
                                 ),
                                 blendMode = BlendMode.SrcAtop,
-                                size = Size(width = size.width * (currentPoint.toFloat() / sizePoint.toFloat()), height =  size.height),
+                                size = Size(width = size.width * (currentPoint.toFloat() / sizePoint.toFloat()), height = size.height),
                                 cornerRadius = CornerRadius(100f, 100f)
                             )
                         },

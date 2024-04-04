@@ -22,16 +22,21 @@ import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Divider
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,12 +58,14 @@ import com.bluhabit.blu.android.presentation.home.component.PostScreen
 import com.bluhabit.blu.android.presentation.home.component.ProfileScreen
 import com.bluhabit.blu.android.presentation.home.component.SearchScreen
 import com.bluhabit.core.ui.components.dialog.DialogLoading
+import com.bluhabit.core.ui.components.sheet.DetailInterestTopicsBottomSheet
 import com.bluhabit.core.ui.theme.UwangColors
 import com.bluhabit.core.ui.theme.UwangDimens
 import com.bluhabit.core.ui.theme.UwangTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(
@@ -70,66 +77,100 @@ fun HomeScreen(
     // This screen is Base Screen of Bottom Navigation
     val ctx = LocalContext.current
     val dimens = UwangDimens.from(ctx)
-    val state by stateFlow.collectAsStateWithLifecycle(initialValue = HomeState())
+    val scope = rememberCoroutineScope()
+    val state by stateFlow.collectAsStateWithLifecycle(
+        initialValue = HomeState(),
+    )
     val effect by effectFlow.collectAsState(initial = HomeEffect.None)
     var exitApp by remember { mutableStateOf(false) }
-
+    val bottomSheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        confirmValueChange = {
+            it != ModalBottomSheetValue.HalfExpanded
+        },
+        skipHalfExpanded = true
+    )
 
     DialogLoading(show = state.showLoading)
-
-    Scaffold(
+    ModalBottomSheetLayout(
         modifier = Modifier
             .background(UwangColors.Base.White)
-            .fillMaxSize()
             .safeDrawingPadding(),
-        bottomBar = {
-            BottomNavigationBar(
-                state = state,
-                effect = effect,
-                onAction = onAction
-            )
+        sheetState = bottomSheetState,
+        sheetBackgroundColor = Color.White,
+        sheetShape = RoundedCornerShape(
+            topStart = dimens.dp_24,
+            topEnd = dimens.dp_24
+        ),
+        sheetContent = {
+            DetailInterestTopicsBottomSheet(
+                topicList = state.topicList,
+            ) { index, topic ->
+                // On Topic Clicked
+            }
         }
-    ) { paddingValues ->
-        when (state.currentScreen) {
-            0 -> MainScreen(
-                paddingValues = paddingValues,
-                state = state,
-                onAction = onAction,
-            )
+    ) {
+        Scaffold(
+            modifier = Modifier
+                .fillMaxSize(),
+            bottomBar = {
+                BottomNavigationBar(
+                    state = state,
+                    effect = effect,
+                    onAction = onAction
+                )
+            }
+        ) { paddingValues ->
+            when (state.currentScreen) {
+                0 -> MainScreen(
+                    paddingValues = paddingValues,
+                    state = state,
+                    onAction = onAction,
+                )
 
-            1 -> SearchScreen(
-                paddingValues = paddingValues,
-                state = state,
-                onAction = onAction,
-            )
+                1 -> SearchScreen(
+                    paddingValues = paddingValues,
+                    state = state,
+                    onAction = onAction,
+                )
 
-            2 -> PostScreen(
-                paddingValues = paddingValues,
-                state = state,
-                onAction = onAction,
-            )
+                2 -> PostScreen(
+                    paddingValues = paddingValues,
+                    state = state,
+                    onAction = onAction,
+                )
 
-            3 -> NotificationScreen(
-                paddingValues = paddingValues,
-                state = state,
-                onAction = onAction,
-            )
+                3 -> NotificationScreen(
+                    paddingValues = paddingValues,
+                    state = state,
+                    onAction = onAction,
+                )
 
-            4 -> ProfileScreen(
-                paddingValues = paddingValues,
-                state = state,
-                onAction = onAction,
-                onEditProfile = {
-                    navHostController.navigate(Routes.EditProfile) {
-                        launchSingleTop = true
+                4 -> ProfileScreen(
+                    paddingValues = paddingValues,
+                    state = state,
+                    onAction = onAction,
+                    onEditProfile = {
+                        navHostController.navigate(Routes.EditProfile) {
+                            launchSingleTop = true
+                        }
+                    },
+                    onDetailTopicBottomSheetShow = {
+                        scope.launch {
+                            bottomSheetState.show()
+                        }
                     }
-                }
-            )
+                )
+            }
         }
     }
 
     fun goBack() {
         when {
+            bottomSheetState.isVisible -> scope.launch {
+                bottomSheetState.hide()
+            }
+
             state.currentScreen > 0 -> onAction(HomeAction.OnScreenChange(0))
             state.currentScreen == 0 -> {
                 if (exitApp) {
